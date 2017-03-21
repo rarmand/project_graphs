@@ -1,0 +1,29 @@
+import numpy as np
+
+Matrix = [[3,4,5],[6,1,9],[5,2,9]]
+
+def findShortestPath(Matrix,i,j):
+  N = len(Matrix)
+  rev_list = [j]
+  paths = [[(None,Matrix[i][j]) if Matrix[i][j]==float('inf') or i==j else (i, Matrix[i][j]) \
+            for j in range(N)] for i in range(N)] # paths based on costs
+  lowest_cost = Matrix[i][j]
+  elem = j
+  while elem != i:
+    elem = Matrix[elem][i]  #tutaj najprawdopodobniej element klasy
+            #gdyz ma zwracac wartosc sciezki
+    rev_list.append(elem)  #a tu ma ta wartosc sciezki dodawac do listy
+  result = []
+  for r in rev_list.reverse():
+    result.append(r)
+  result_cost = cost  
+  return (result, cost)
+
+def printShortestPaths(Matrix):
+  for i in range(len(Matrix)):
+    for j in range(len(Matrix)):
+      print findShortestPath(Matrix,i,j),
+    print
+
+printShortestPaths(Matrix)
+

@@ -1,0 +1,57 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import operator
+
+def CanBeDrawn(li):
+  '''na podstawie listy stopni wierzchołków sprawdź, czy dany graf da się narysować, a jeśli tak, zwróć przykładową macierz sąsiedztwa'''
+
+  # dodajemy wszystkie stopnie i sprawdzamy, czy parzyste --- lemat o uściskach dłoni
+  if sum(li) % 2  !=  0:
+    return None
+  li.sort()
+
+  n = len(li)
+  A = [[0] * n for i in range(n)]  # macierz sąsiedztwa
+
+  # przypisujemy jednoznaczny indeks, żeby móc losować bez zamieszania w A
+  li = [[elem,i] for i,elem in enumerate(li)]
+
+
+  for k in reversed(range(n)):
+  # niezmienniki pętli:
+  #    lista li jest posortowana
+  #    krawędzie pomiędzy wierzchołkami 0..k są zapisane w liście li
+  #    krawędzie zawierające wierzchołki (k+1)..last są zapisane w macierzy A
+  #    k = k'Old - 1
+  # efekt:
+  #    wszystkie krawędzie są przenoszone z li do A (albo też przeniesienie nie jest możliwe)
+
+    ile = li[k][0]
+
+    # jeśli jego stopień przekracza liczbę pozostałych do sprawdzenia wierzchołków, to go odrzucamy
+    if k-ile < 0:
+      return None
+
+    for j in range(k-ile, k):
+      # w przeciwnym razie usuwamy połączenie z nim z kolejnych wierzchołków
+      li[j][0] -= 1
+
+      # jeśli obniżyło to stopień jakiegoś wierzchołka poniżej zera, graf jest niemożliwy
+      if li[j][0] < 0:
+        return None
+
+      # przenosimy połączenie usunięte z listy do macierzy sąsiedztwa
+      A[ li[k][1] ][ li[j][1] ] = 1
+      A[ li[j][1] ][ li[k][1] ] = 1
+    li.sort()
+  return A
+
+
+if __name__=="__main__":
+#  listaMa = [4,2,2,3,1]
+  listaMa = [6,6,4,4,4,2,2,2,2]
+  c = CanBeDrawn(listaMa)
+  from konwersje import *
+  from GraphDigital import *
+  wyswietl(matrixToList(c))

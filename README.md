@@ -2,7 +2,7 @@
 Project created for classes "Graphs and their uses" by team of 4 students.
 
 The code is not a consistent program. 
-Every file is written in Python 3.0 language.
+Every file is written in Python language.
 
 The best way to check the code is to open it with a proper IDE e.g. PyCharm.
 
